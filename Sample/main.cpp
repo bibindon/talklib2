@@ -334,7 +334,7 @@ void InitTalk()
     // ちょっと良くないけど・・・まぁよし！
     IFont* pFont = new Font(g_pd3dDevice);
     ISoundEffect* pSE = new SoundEffect();
-    Sprite* sprite = new Sprite(g_pd3dDevice);
+    ISprite* sprite = new Sprite(g_pd3dDevice);
 
     g_talk->Init("talk2Sample.csv", pFont, pSE, sprite);
 }

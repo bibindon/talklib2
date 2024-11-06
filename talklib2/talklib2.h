@@ -65,13 +65,14 @@ public:
               IFont* font,
               ISoundEffect* SE,
               ISprite* sprite);
-    std::vector<TalkBall> CreateTalkList();
     void Next();
     bool Update();
     void Render();
     void Finalize();
 
 private:
+    std::vector<TalkBall> CreateTalkList();
+
     std::string m_csvfilepath;
     ISprite* m_sprite;
     ISprite* m_sprTextBack;
