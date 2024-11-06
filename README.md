@@ -1,5 +1,9 @@
 
-https://github.com/user-attachments/assets/aa50a282-7568-4736-a081-57d9d87a5575
+
+
+https://github.com/user-attachments/assets/f4eb3341-770e-4b95-945d-7f3fd33bc2b6
+
+
 
 ノベルゲームのように画像を使って会話の演出を行う
 
