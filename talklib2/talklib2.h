@@ -39,6 +39,7 @@ public:
     void Update();
     void Render();
     bool IsFinish();
+    void Finalize();
 
 private:
     std::vector<std::string> m_textShow;

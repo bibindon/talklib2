@@ -72,12 +72,17 @@ public:
 
     ~Sprite() override
     {
-        m_D3DSprite->Release();
-        m_D3DSprite->Release();
-        m_D3DSprite = nullptr;
-        m_pD3DTexture->Release();
-        m_pD3DTexture->Release();
-        m_pD3DTexture = nullptr;
+        if (m_D3DSprite != nullptr)
+        {
+            m_D3DSprite->Release();
+            m_D3DSprite = nullptr;
+        }
+
+        if (m_pD3DTexture != nullptr)
+        {
+            m_pD3DTexture->Release();
+            m_pD3DTexture = nullptr;
+        }
     }
 
     virtual ISprite* Create() override

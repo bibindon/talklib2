@@ -128,11 +128,19 @@ void Talk::Render()
 
 void Talk::Finalize()
 {
+    for (std::size_t i = 0; i < m_talkBallList.size(); ++i)
+    {
+        m_talkBallList.at(i).Finalize();
+    }
+
     delete m_sprFade;
     m_sprFade = nullptr;
 
     delete m_sprTextBack;
     m_sprTextBack = nullptr;
+
+    delete m_sprite;
+    m_sprite = nullptr;
 
     delete m_SE;
     m_SE = nullptr;
@@ -280,7 +288,7 @@ void TalkBall::Render()
 
     if (m_spriteRight != nullptr)
     {
-        m_spriteRight->DrawImage(500, 0);
+        m_spriteRight->DrawImage(700, 0);
     }
 
     m_spriteBack->DrawImage(0, 0);
@@ -305,3 +313,19 @@ bool TalkBall::IsFinish()
 {
     return m_isFinish;
 }
+
+void TalkBall::Finalize()
+{
+    if (m_spriteLeft != nullptr)
+    {
+        delete m_spriteLeft;
+        m_spriteLeft = nullptr;
+    }
+
+    if (m_spriteRight != nullptr)
+    {
+        delete m_spriteRight;
+        m_spriteRight = nullptr;
+    }
+}
+
