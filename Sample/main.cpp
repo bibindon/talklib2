@@ -20,6 +20,8 @@
 
 #define SAFE_RELEASE(p) { if (p) { (p)->Release(); (p) = NULL; } }
 
+using namespace NSTalkLib2;
+
 D3DXVECTOR3 cameraEye = { 6.f, 4.f, 2.f };
 D3DXVECTOR3 cameraAt = { 0.f, 0.f, 0.f };
 

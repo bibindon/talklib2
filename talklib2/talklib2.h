@@ -3,6 +3,8 @@
 #include <string>
 #include <vector>
 
+namespace NSTalkLib2
+{
 class ISprite
 {
 public:
@@ -33,9 +35,9 @@ class TalkBall
 {
 public:
     void Init(const std::vector<std::string>& csvOneLine,
-              IFont* font,
-              ISprite* sprite,
-              ISoundEffect* SE);
+        IFont* font,
+        ISprite* sprite,
+        ISoundEffect* SE);
     void Update();
     void Render();
     bool IsFinish();
@@ -62,9 +64,9 @@ class Talk
 public:
 
     void Init(const std::string& csvFilename,
-              IFont* font,
-              ISoundEffect* SE,
-              ISprite* sprite);
+        IFont* font,
+        ISoundEffect* SE,
+        ISprite* sprite);
     void Next();
     bool Update();
     void Render();
@@ -94,4 +96,5 @@ private:
     int m_waitNextCount = 0;
 
 };
+}
 
