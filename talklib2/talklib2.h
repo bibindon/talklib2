@@ -64,9 +64,11 @@ class Talk
 public:
 
     void Init(const std::string& csvFilename,
-        IFont* font,
-        ISoundEffect* SE,
-        ISprite* sprite);
+              IFont* font,
+              ISoundEffect* SE,
+              ISprite* sprite,
+              const std::string& textBackImgPath,
+              const std::string& blackImgPath);
     void Next();
     bool Update();
     void Render();

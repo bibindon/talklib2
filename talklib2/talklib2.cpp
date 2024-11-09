@@ -21,7 +21,9 @@ static std::vector<std::string> split(const std::string& s, char delim)
 void Talk::Init(const std::string& csvfilepath,
                 IFont* font,
                 ISoundEffect* SE,
-                ISprite* sprite)
+                ISprite* sprite,
+                const std::string& textBackImgPath,
+                const std::string& blackImgPath)
 {
     m_csvfilepath = csvfilepath;
     m_font = font;
@@ -32,8 +34,8 @@ void Talk::Init(const std::string& csvfilepath,
 
     m_font->Init();
     m_SE->Init();
-    m_sprTextBack->Load("textBack.png");
-    m_sprFade->Load("black.png");
+    m_sprTextBack->Load(textBackImgPath);
+    m_sprFade->Load(blackImgPath);
 
     m_isFadeIn = true;
 
