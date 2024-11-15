@@ -211,7 +211,7 @@ void TalkBall::Update()
         m_SE->PlayMessage();
     }
 
-    m_charCount++;
+    m_charCount += 3;
     // ˆês–Ú
     if (m_charCount < (int)m_text.at(0).size())
     {

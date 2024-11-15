@@ -94,7 +94,7 @@ private:
     bool m_isFadeOut = false;
     int m_FadeOutCount = 0;
 
-    const int WAIT_NEXT_FRAME = 60;
+    const int WAIT_NEXT_FRAME = 30;
     int m_waitNextCount = 0;
 
 };
