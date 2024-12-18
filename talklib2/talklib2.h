@@ -78,7 +78,7 @@ private:
     std::vector<TalkBall> CreateTalkList();
 
     std::string m_csvfilepath;
-    ISprite* m_sprite;
+    ISprite* m_sprite = nullptr;
     ISprite* m_sprTextBack;
     IFont* m_font;
     ISoundEffect* m_SE;
