@@ -135,6 +135,7 @@ void Talk::Finalize()
     {
         m_talkBallList.at(i).Finalize();
     }
+    m_talkBallList.clear();
 
     delete m_sprFade;
     m_sprFade = nullptr;
