@@ -41,7 +41,6 @@ void Talk::Init(const std::string& csvfilepath,
 
     std::vector<TalkBall> talkList = CreateTalkList();
     m_talkBallList = talkList;
-
 }
 
 std::vector<TalkBall> Talk::CreateTalkList()
@@ -320,16 +319,13 @@ bool TalkBall::IsFinish()
 
 void TalkBall::Finalize()
 {
-    if (m_spriteLeft != nullptr)
-    {
-        delete m_spriteLeft;
-        m_spriteLeft = nullptr;
-    }
+    delete m_spriteLeft;
+    m_spriteLeft = nullptr;
 
-    if (m_spriteRight != nullptr)
-    {
-        delete m_spriteRight;
-        m_spriteRight = nullptr;
-    }
+    delete m_spriteRight;
+    m_spriteRight = nullptr;
+
+    delete m_spriteBack;
+    m_spriteBack = nullptr;
 }
 

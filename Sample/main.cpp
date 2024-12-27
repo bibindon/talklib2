@@ -91,6 +91,7 @@ public:
     {
         return new Sprite(m_pD3DDevice);
     }
+
 private:
     LPDIRECT3DDEVICE9 m_pD3DDevice = NULL;
     LPD3DXSPRITE m_D3DSprite = NULL;
