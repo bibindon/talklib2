@@ -324,8 +324,5 @@ void TalkBall::Finalize()
 
     delete m_spriteRight;
     m_spriteRight = nullptr;
-
-    delete m_spriteBack;
-    m_spriteBack = nullptr;
 }
 
