@@ -39,19 +39,19 @@ void Talk::Init(const std::string& csvfilepath,
 
     m_isFadeIn = true;
 
-    std::vector<TalkBall> talkList = CreateTalkList();
+    std::vector<TalkBall*> talkList = CreateTalkList();
     m_talkBallList = talkList;
 }
 
-std::vector<TalkBall> Talk::CreateTalkList()
+std::vector<TalkBall*> Talk::CreateTalkList()
 {
-    std::vector<TalkBall> talkList;
+    std::vector<TalkBall*> talkList;
     std::vector<std::vector<std::string> > vss = csv::Read(m_csvfilepath);
 
     for (std::size_t i = 1; i < vss.size(); ++i)
     {
-        TalkBall talkBall;
-        talkBall.Init(vss.at(i), m_font, m_sprTextBack, m_SE);
+        TalkBall* talkBall = new TalkBall();
+        talkBall->Init(vss.at(i), m_font, m_sprTextBack, m_SE);
         talkList.push_back(talkBall);
     }
     return talkList;
@@ -64,7 +64,7 @@ void Talk::Next()
         return;
     }
 
-    if (m_talkBallList.at(m_talkBallIndex).IsFinish() == false)
+    if (m_talkBallList.at(m_talkBallIndex)->IsFinish() == false)
     {
         return;
     }
@@ -110,14 +110,14 @@ bool Talk::Update()
             isFinish = true;
         }
     }
-    m_talkBallList.at(m_talkBallIndex).Update();
+    m_talkBallList.at(m_talkBallIndex)->Update();
 
     return isFinish;
 }
 
 void Talk::Render()
 {
-    m_talkBallList.at(m_talkBallIndex).Render();
+    m_talkBallList.at(m_talkBallIndex)->Render();
 
     if (m_isFadeIn)
     {
@@ -131,6 +131,12 @@ void Talk::Render()
 
 Talk::~Talk()
 {
+    for (size_t i = 0; i < m_talkBallList.size(); ++i)
+    {
+        delete m_talkBallList.at(i);
+        m_talkBallList.at(i) = nullptr;
+    }
+
     delete m_sprFade;
     m_sprFade = nullptr;
 

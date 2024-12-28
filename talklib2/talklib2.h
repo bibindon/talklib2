@@ -76,14 +76,14 @@ public:
     void Render();
 
 private:
-    std::vector<TalkBall> CreateTalkList();
+    std::vector<TalkBall*> CreateTalkList();
 
     std::string m_csvfilepath;
     ISprite* m_sprite = nullptr;
     ISprite* m_sprTextBack = nullptr;
     IFont* m_font = nullptr;
     ISoundEffect* m_SE = nullptr;
-    std::vector<TalkBall> m_talkBallList;
+    std::vector<TalkBall*> m_talkBallList;
     int m_talkBallIndex = 0;
 
     ISprite* m_sprFade;
