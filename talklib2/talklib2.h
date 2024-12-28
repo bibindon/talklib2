@@ -34,6 +34,7 @@ public:
 class TalkBall
 {
 public:
+    ~TalkBall();
     void Init(const std::vector<std::string>& csvOneLine,
         IFont* font,
         ISprite* sprite,
@@ -41,7 +42,6 @@ public:
     void Update();
     void Render();
     bool IsFinish();
-    void Finalize();
 
 private:
     std::vector<std::string> m_textShow;
@@ -63,6 +63,8 @@ class Talk
 {
 public:
 
+    ~Talk();
+
     void Init(const std::string& csvFilename,
               IFont* font,
               ISoundEffect* SE,
@@ -72,7 +74,6 @@ public:
     void Next();
     bool Update();
     void Render();
-    void Finalize();
 
 private:
     std::vector<TalkBall> CreateTalkList();

@@ -346,7 +346,6 @@ VOID Cleanup()
 {
     if (g_talk != nullptr)
     {
-        g_talk->Finalize();
         delete g_talk;
         g_talk = nullptr;
     }
@@ -414,7 +413,6 @@ VOID Render()
         bFinish = g_talk->Update();
         if (bFinish)
         {
-            g_talk->Finalize();
             delete g_talk;
             g_talk = nullptr;
         }
@@ -486,7 +484,6 @@ LRESULT WINAPI MsgProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
         {
             if (g_talk != nullptr)
             {
-                g_talk->Finalize();
                 delete g_talk;
             }
             g_talk = new Talk();

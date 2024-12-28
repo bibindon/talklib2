@@ -129,14 +129,8 @@ void Talk::Render()
     }
 }
 
-void Talk::Finalize()
+Talk::~Talk()
 {
-    for (std::size_t i = 0; i < m_talkBallList.size(); ++i)
-    {
-        m_talkBallList.at(i).Finalize();
-    }
-    m_talkBallList.clear();
-
     delete m_sprFade;
     m_sprFade = nullptr;
 
@@ -318,7 +312,7 @@ bool TalkBall::IsFinish()
     return m_isFinish;
 }
 
-void TalkBall::Finalize()
+TalkBall::~TalkBall()
 {
     delete m_spriteLeft;
     m_spriteLeft = nullptr;
