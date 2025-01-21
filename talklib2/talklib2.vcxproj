@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="CaesarCipher.h" />
     <ClInclude Include="HeaderOnlyCsv.hpp" />
     <ClInclude Include="talklib2.h" />
   </ItemGroup>

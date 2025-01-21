@@ -36,9 +36,9 @@ class TalkBall
 public:
     ~TalkBall();
     void Init(const std::vector<std::string>& csvOneLine,
-        IFont* font,
-        ISprite* sprite,
-        ISoundEffect* SE);
+              IFont* font,
+              ISprite* sprite,
+              ISoundEffect* SE);
     void Update();
     void Render();
     bool IsFinish();
@@ -70,7 +70,8 @@ public:
               ISoundEffect* SE,
               ISprite* sprite,
               const std::string& textBackImgPath,
-              const std::string& blackImgPath);
+              const std::string& blackImgPath,
+              const bool encrypt);
     void Next();
     bool Update();
     void Render();
@@ -83,6 +84,7 @@ private:
     ISprite* m_sprTextBack = nullptr;
     IFont* m_font = nullptr;
     ISoundEffect* m_SE = nullptr;
+    bool m_encrypt = false;
     std::vector<TalkBall*> m_talkBallList;
     int m_talkBallIndex = 0;
 

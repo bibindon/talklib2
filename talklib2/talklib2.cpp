@@ -1,6 +1,7 @@
 #include "talklib2.h"
 #include <sstream>
 #include "HeaderOnlyCsv.hpp"
+#include "CaesarCipher.h"
 
 using namespace NSTalkLib2;
 
@@ -23,7 +24,8 @@ void Talk::Init(const std::string& csvfilepath,
                 ISoundEffect* SE,
                 ISprite* sprite,
                 const std::string& textBackImgPath,
-                const std::string& blackImgPath)
+                const std::string& blackImgPath,
+                const bool encrypt)
 {
     m_csvfilepath = csvfilepath;
     m_font = font;
@@ -31,6 +33,7 @@ void Talk::Init(const std::string& csvfilepath,
     m_sprite = sprite;
     m_sprTextBack = sprite->Create();
     m_sprFade = sprite->Create();
+    m_encrypt = encrypt;
 
     m_font->Init();
     m_SE->Init();
@@ -46,7 +49,18 @@ void Talk::Init(const std::string& csvfilepath,
 std::vector<TalkBall*> Talk::CreateTalkList()
 {
     std::vector<TalkBall*> talkList;
-    std::vector<std::vector<std::string> > vss = csv::Read(m_csvfilepath);
+
+    std::vector<std::vector<std::string> > vss;
+
+    if (m_encrypt == false)
+    {
+        vss = csv::Read(m_csvfilepath);
+    }
+    else
+    {
+        auto workStr = CaesarCipher::DecryptFromFile(m_csvfilepath);
+        vss = csv::ReadFromString(workStr);
+    }
 
     for (std::size_t i = 1; i < vss.size(); ++i)
     {
