@@ -34,14 +34,14 @@ public:
 class TalkBall
 {
 public:
+    ~TalkBall();
     void Init(const std::vector<std::string>& csvOneLine,
-        IFont* font,
-        ISprite* sprite,
-        ISoundEffect* SE);
+              IFont* font,
+              ISprite* sprite,
+              ISoundEffect* SE);
     void Update();
     void Render();
     bool IsFinish();
-    void Finalize();
 
 private:
     std::vector<std::string> m_textShow;
@@ -63,38 +63,52 @@ class Talk
 {
 public:
 
+    ~Talk();
+
     void Init(const std::string& csvFilename,
               IFont* font,
               ISoundEffect* SE,
               ISprite* sprite,
               const std::string& textBackImgPath,
-              const std::string& blackImgPath);
+              const std::string& blackImgPath,
+              const bool encrypt);
     void Next();
     bool Update();
     void Render();
-    void Finalize();
+
+    static void SetFastMode(const bool arg);
 
 private:
-    std::vector<TalkBall> CreateTalkList();
+
+    static bool m_fastMode;
+    void UpdateConstValue();
+
+    std::vector<TalkBall*> CreateTalkList();
 
     std::string m_csvfilepath;
     ISprite* m_sprite = nullptr;
-    ISprite* m_sprTextBack;
-    IFont* m_font;
-    ISoundEffect* m_SE;
-    std::vector<TalkBall> m_talkBallList;
+    ISprite* m_sprTextBack = nullptr;
+    IFont* m_font = nullptr;
+    ISoundEffect* m_SE = nullptr;
+    bool m_encrypt = false;
+    std::vector<TalkBall*> m_talkBallList;
     int m_talkBallIndex = 0;
 
     ISprite* m_sprFade;
+
     // 30フレームかけて表示する。
     // 30フレームではなく500ミリ秒、でやるべきだが、それほど大きな問題とならないのでよしとする。
     const int FADE_FRAME_MAX = 30;
+    int fade_frame_max = FADE_FRAME_MAX;
+
     bool m_isFadeIn = false;
     int m_FadeInCount = 0;
     bool m_isFadeOut = false;
     int m_FadeOutCount = 0;
 
     const int WAIT_NEXT_FRAME = 30;
+    int wait_next_frame = WAIT_NEXT_FRAME;
+
     int m_waitNextCount = 0;
 
 };

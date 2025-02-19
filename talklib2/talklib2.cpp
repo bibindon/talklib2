@@ -1,8 +1,11 @@
 #include "talklib2.h"
 #include <sstream>
 #include "HeaderOnlyCsv.hpp"
+#include "CaesarCipher.h"
 
 using namespace NSTalkLib2;
+
+bool Talk::m_fastMode = false;
 
 static std::vector<std::string> split(const std::string& s, char delim)
 {
@@ -23,7 +26,8 @@ void Talk::Init(const std::string& csvfilepath,
                 ISoundEffect* SE,
                 ISprite* sprite,
                 const std::string& textBackImgPath,
-                const std::string& blackImgPath)
+                const std::string& blackImgPath,
+                const bool encrypt)
 {
     m_csvfilepath = csvfilepath;
     m_font = font;
@@ -31,6 +35,7 @@ void Talk::Init(const std::string& csvfilepath,
     m_sprite = sprite;
     m_sprTextBack = sprite->Create();
     m_sprFade = sprite->Create();
+    m_encrypt = encrypt;
 
     m_font->Init();
     m_SE->Init();
@@ -39,19 +44,44 @@ void Talk::Init(const std::string& csvfilepath,
 
     m_isFadeIn = true;
 
-    std::vector<TalkBall> talkList = CreateTalkList();
+    std::vector<TalkBall*> talkList = CreateTalkList();
     m_talkBallList = talkList;
 }
 
-std::vector<TalkBall> Talk::CreateTalkList()
+void NSTalkLib2::Talk::UpdateConstValue()
 {
-    std::vector<TalkBall> talkList;
-    std::vector<std::vector<std::string> > vss = csv::Read(m_csvfilepath);
+    if (m_fastMode)
+    {
+        fade_frame_max = 1;
+        wait_next_frame = 1;
+    }
+    else
+    {
+        fade_frame_max = FADE_FRAME_MAX;
+        wait_next_frame = WAIT_NEXT_FRAME;
+    }
+}
+
+std::vector<TalkBall*> Talk::CreateTalkList()
+{
+    std::vector<TalkBall*> talkList;
+
+    std::vector<std::vector<std::string> > vss;
+
+    if (m_encrypt == false)
+    {
+        vss = csv::Read(m_csvfilepath);
+    }
+    else
+    {
+        auto workStr = CaesarCipher::DecryptFromFile(m_csvfilepath);
+        vss = csv::ReadFromString(workStr);
+    }
 
     for (std::size_t i = 1; i < vss.size(); ++i)
     {
-        TalkBall talkBall;
-        talkBall.Init(vss.at(i), m_font, m_sprTextBack, m_SE);
+        TalkBall* talkBall = new TalkBall();
+        talkBall->Init(vss.at(i), m_font, m_sprTextBack, m_SE);
         talkList.push_back(talkBall);
     }
     return talkList;
@@ -59,12 +89,12 @@ std::vector<TalkBall> Talk::CreateTalkList()
 
 void Talk::Next()
 {
-    if (m_waitNextCount < WAIT_NEXT_FRAME)
+    if (m_waitNextCount < wait_next_frame)
     {
         return;
     }
 
-    if (m_talkBallList.at(m_talkBallIndex).IsFinish() == false)
+    if (m_talkBallList.at(m_talkBallIndex)->IsFinish() == false)
     {
         return;
     }
@@ -85,11 +115,13 @@ void Talk::Next()
 // 戻り値は会話終了フラグ
 bool Talk::Update()
 {
+    UpdateConstValue();
+
     bool isFinish = false;
     m_waitNextCount++;
     if (m_isFadeIn)
     {
-        if (m_FadeInCount < FADE_FRAME_MAX)
+        if (m_FadeInCount < fade_frame_max)
         {
             m_FadeInCount++;
         }
@@ -101,7 +133,7 @@ bool Talk::Update()
     }
     if (m_isFadeOut)
     {
-        if (m_FadeOutCount < FADE_FRAME_MAX)
+        if (m_FadeOutCount < fade_frame_max)
         {
             m_FadeOutCount++;
         }
@@ -110,30 +142,36 @@ bool Talk::Update()
             isFinish = true;
         }
     }
-    m_talkBallList.at(m_talkBallIndex).Update();
+    m_talkBallList.at(m_talkBallIndex)->Update();
 
     return isFinish;
 }
 
 void Talk::Render()
 {
-    m_talkBallList.at(m_talkBallIndex).Render();
+    m_talkBallList.at(m_talkBallIndex)->Render();
 
     if (m_isFadeIn)
     {
-        m_sprFade->DrawImage(0, 0, 255 - m_FadeInCount*255/FADE_FRAME_MAX);
+        m_sprFade->DrawImage(0, 0, 255 - m_FadeInCount*255/fade_frame_max);
     }
     if (m_isFadeOut)
     {
-        m_sprFade->DrawImage(0, 0, m_FadeOutCount*255/FADE_FRAME_MAX);
+        m_sprFade->DrawImage(0, 0, m_FadeOutCount*255/fade_frame_max);
     }
 }
 
-void Talk::Finalize()
+void NSTalkLib2::Talk::SetFastMode(const bool arg)
 {
-    for (std::size_t i = 0; i < m_talkBallList.size(); ++i)
+    m_fastMode = arg;
+}
+
+Talk::~Talk()
+{
+    for (size_t i = 0; i < m_talkBallList.size(); ++i)
     {
-        m_talkBallList.at(i).Finalize();
+        delete m_talkBallList.at(i);
+        m_talkBallList.at(i) = nullptr;
     }
 
     delete m_sprFade;
@@ -317,7 +355,7 @@ bool TalkBall::IsFinish()
     return m_isFinish;
 }
 
-void TalkBall::Finalize()
+TalkBall::~TalkBall()
 {
     delete m_spriteLeft;
     m_spriteLeft = nullptr;
