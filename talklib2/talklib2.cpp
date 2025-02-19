@@ -5,6 +5,8 @@
 
 using namespace NSTalkLib2;
 
+bool Talk::m_fastMode = false;
+
 static std::vector<std::string> split(const std::string& s, char delim)
 {
     std::vector<std::string> result;
@@ -46,6 +48,20 @@ void Talk::Init(const std::string& csvfilepath,
     m_talkBallList = talkList;
 }
 
+void NSTalkLib2::Talk::UpdateConstValue()
+{
+    if (m_fastMode)
+    {
+        fade_frame_max = 1;
+        wait_next_frame = 1;
+    }
+    else
+    {
+        fade_frame_max = FADE_FRAME_MAX;
+        wait_next_frame = WAIT_NEXT_FRAME;
+    }
+}
+
 std::vector<TalkBall*> Talk::CreateTalkList()
 {
     std::vector<TalkBall*> talkList;
@@ -73,7 +89,7 @@ std::vector<TalkBall*> Talk::CreateTalkList()
 
 void Talk::Next()
 {
-    if (m_waitNextCount < WAIT_NEXT_FRAME)
+    if (m_waitNextCount < wait_next_frame)
     {
         return;
     }
@@ -99,11 +115,13 @@ void Talk::Next()
 // 戻り値は会話終了フラグ
 bool Talk::Update()
 {
+    UpdateConstValue();
+
     bool isFinish = false;
     m_waitNextCount++;
     if (m_isFadeIn)
     {
-        if (m_FadeInCount < FADE_FRAME_MAX)
+        if (m_FadeInCount < fade_frame_max)
         {
             m_FadeInCount++;
         }
@@ -115,7 +133,7 @@ bool Talk::Update()
     }
     if (m_isFadeOut)
     {
-        if (m_FadeOutCount < FADE_FRAME_MAX)
+        if (m_FadeOutCount < fade_frame_max)
         {
             m_FadeOutCount++;
         }
@@ -124,7 +142,7 @@ bool Talk::Update()
             isFinish = true;
         }
     }
-    m_talkBallList.at(m_talkBallIndex)->Update();
+    m_talkBallList.at(m_talkBallIndex)->Update(m_fastMode);
 
     return isFinish;
 }
@@ -135,12 +153,17 @@ void Talk::Render()
 
     if (m_isFadeIn)
     {
-        m_sprFade->DrawImage(0, 0, 255 - m_FadeInCount*255/FADE_FRAME_MAX);
+        m_sprFade->DrawImage(0, 0, 255 - m_FadeInCount*255/fade_frame_max);
     }
     if (m_isFadeOut)
     {
-        m_sprFade->DrawImage(0, 0, m_FadeOutCount*255/FADE_FRAME_MAX);
+        m_sprFade->DrawImage(0, 0, m_FadeOutCount*255/fade_frame_max);
     }
+}
+
+void NSTalkLib2::Talk::SetFastMode(const bool arg)
+{
+    m_fastMode = arg;
 }
 
 Talk::~Talk()
@@ -201,7 +224,7 @@ void TalkBall::Init(const std::vector<std::string>& csvOneLine,
     m_textShow.resize(3);
 }
 
-void TalkBall::Update()
+void TalkBall::Update(const bool fastmode)
 {
     m_textIndex++;
 
@@ -214,9 +237,20 @@ void TalkBall::Update()
 
     // 30フレーム経過してから文字の表示を始める
     m_counter++;
-    if (m_counter < 30)
+
+    if (!fastmode)
     {
-        return;
+        if (m_counter < 30)
+        {
+            return;
+        }
+    }
+    else
+    {
+        if (m_counter < 1)
+        {
+            return;
+        }
     }
 
     if (m_isSEPlay == false)
@@ -225,7 +259,15 @@ void TalkBall::Update()
         m_SE->PlayMessage();
     }
 
-    m_charCount += 3;
+    if (!fastmode)
+    {
+        m_charCount += 3;
+    }
+    else
+    {
+        m_charCount += 300;
+    }
+
     // 一行目
     if (m_charCount < (int)m_text.at(0).size())
     {

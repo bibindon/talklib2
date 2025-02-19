@@ -39,7 +39,7 @@ public:
               IFont* font,
               ISprite* sprite,
               ISoundEffect* SE);
-    void Update();
+    void Update(const bool fastmode);
     void Render();
     bool IsFinish();
 
@@ -76,7 +76,13 @@ public:
     bool Update();
     void Render();
 
+    static void SetFastMode(const bool arg);
+
 private:
+
+    static bool m_fastMode;
+    void UpdateConstValue();
+
     std::vector<TalkBall*> CreateTalkList();
 
     std::string m_csvfilepath;
@@ -89,15 +95,20 @@ private:
     int m_talkBallIndex = 0;
 
     ISprite* m_sprFade;
+
     // 30フレームかけて表示する。
     // 30フレームではなく500ミリ秒、でやるべきだが、それほど大きな問題とならないのでよしとする。
     const int FADE_FRAME_MAX = 30;
+    int fade_frame_max = FADE_FRAME_MAX;
+
     bool m_isFadeIn = false;
     int m_FadeInCount = 0;
     bool m_isFadeOut = false;
     int m_FadeOutCount = 0;
 
     const int WAIT_NEXT_FRAME = 30;
+    int wait_next_frame = WAIT_NEXT_FRAME;
+
     int m_waitNextCount = 0;
 
 };

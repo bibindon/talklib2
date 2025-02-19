@@ -135,7 +135,6 @@ public:
     ~Font() override
     {
         m_pFont->Release();
-        m_pFont->Release();
         m_pFont = nullptr;
     }
 
@@ -488,6 +487,16 @@ LRESULT WINAPI MsgProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
             }
             g_talk = new Talk();
             InitTalk();
+            break;
+        }
+        case 'F':
+        {
+            Talk::SetFastMode(true);
+            break;
+        }
+        case 'G':
+        {
+            Talk::SetFastMode(false);
             break;
         }
         case VK_RETURN:
