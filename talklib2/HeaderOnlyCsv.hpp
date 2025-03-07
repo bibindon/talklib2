@@ -17,7 +17,8 @@ public:
         int result = PathFileExists(filepath.c_str());
         if (result == 0)
         {
-            return csvData;
+            std::string work = filepath + "を開くことができませんでした。";
+            throw std::exception(work.c_str());
         }
 
         // 「"」記号で囲まれているとセル内改行ができることに注意
