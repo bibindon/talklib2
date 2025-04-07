@@ -274,11 +274,11 @@ void TalkBall::Update(const bool fastmode)
         // マルチバイト文字は1文字で2バイトであることを考慮する
         if (m_charCount % 2 == 0)
         {
-            m_textShow.at(0) = m_text.at(0).substr(0, m_charCount);
+            m_textShow.at(0) = m_text.at(0).substr(0, (size_t)m_charCount);
         }
         else
         {
-            m_textShow.at(0) = m_text.at(0).substr(0, m_charCount - 1);
+            m_textShow.at(0) = m_text.at(0).substr(0, (size_t)m_charCount - 1);
         }
     }
     else
@@ -289,8 +289,8 @@ void TalkBall::Update(const bool fastmode)
     int total = 0;
 
     // 二行目
-    total = m_text.at(0).size() + m_text.at(1).size();
-    int secondLineCount = m_charCount - m_text.at(0).size();
+    total = (int)m_text.at(0).size() + (int)m_text.at(1).size();
+    int secondLineCount = m_charCount - (int)m_text.at(0).size();
     if (m_charCount < total)
     {
         if (secondLineCount >= 0)
@@ -302,7 +302,7 @@ void TalkBall::Update(const bool fastmode)
             }
             else
             {
-                m_textShow.at(1) = m_text.at(1).substr(0, secondLineCount - 1);
+                m_textShow.at(1) = m_text.at(1).substr(0, (size_t)secondLineCount - 1);
             }
         }
     }
@@ -312,9 +312,9 @@ void TalkBall::Update(const bool fastmode)
     }
 
     // 三行目
-    total = m_text.at(0).size() + m_text.at(1).size() + m_text.at(2).size();
+    total = (int)m_text.at(0).size() + (int)m_text.at(1).size() + (int)m_text.at(2).size();
 
-    int thirdLineCount = m_charCount - m_text.at(0).size() - m_text.at(1).size();
+    int thirdLineCount = m_charCount - (int)m_text.at(0).size() - (int)m_text.at(1).size();
     if (m_charCount < total)
     {
         if (thirdLineCount >= 0)
@@ -326,7 +326,7 @@ void TalkBall::Update(const bool fastmode)
             }
             else
             {
-                m_textShow.at(2) = m_text.at(2).substr(0, thirdLineCount - 1);
+                m_textShow.at(2) = m_text.at(2).substr(0, (size_t)(thirdLineCount - 1));
             }
         }
     }
