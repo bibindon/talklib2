@@ -136,9 +136,9 @@ public:
                                         false,
                                         DEFAULT_CHARSET,
                                         OUT_TT_ONLY_PRECIS,
-                                        ANTIALIASED_QUALITY,
+                                        CLEARTYPE_QUALITY,
                                         FF_DONTCARE,
-                                        "Consolas",
+                                        "Courier New",
                                         &m_pFont);
         }
     }
