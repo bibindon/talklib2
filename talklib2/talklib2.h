@@ -18,7 +18,7 @@ class IFont
 {
 public:
     virtual void DrawText_(const std::string& msg, const int x, const int y) = 0;
-    virtual void Init() = 0;
+    virtual void Init(const bool bEnglish) = 0;
     virtual ~IFont() {};
 };
 
@@ -71,7 +71,9 @@ public:
               ISprite* sprite,
               const std::string& textBackImgPath,
               const std::string& blackImgPath,
-              const bool encrypt);
+              const bool encrypt,
+              const bool bEnglish);
+
     void Next();
     bool Update();
     void Render();
@@ -110,6 +112,8 @@ private:
     int wait_next_frame = WAIT_NEXT_FRAME;
 
     int m_waitNextCount = 0;
+
+    bool m_bEnglish = false;
 
 };
 }

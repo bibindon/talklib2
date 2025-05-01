@@ -109,20 +109,38 @@ public:
     {
     }
 
-    void Init()
+    void Init(const bool bEnglish)
     {
-        HRESULT hr = D3DXCreateFont(m_pD3DDevice,
-                                    24,
-                                    0,
-                                    FW_NORMAL,
-                                    1,
-                                    false,
-                                    SHIFTJIS_CHARSET,
-                                    OUT_TT_ONLY_PRECIS,
-                                    ANTIALIASED_QUALITY,
-                                    FF_DONTCARE,
-                                    "‚l‚r –¾’©",
-                                    &m_pFont);
+        if (!bEnglish)
+        {
+            HRESULT hr = D3DXCreateFont(m_pD3DDevice,
+                                        24,
+                                        0,
+                                        FW_NORMAL,
+                                        1,
+                                        false,
+                                        SHIFTJIS_CHARSET,
+                                        OUT_TT_ONLY_PRECIS,
+                                        ANTIALIASED_QUALITY,
+                                        FF_DONTCARE,
+                                        "‚l‚r –¾’©",
+                                        &m_pFont);
+        }
+        else
+        {
+            HRESULT hr = D3DXCreateFont(m_pD3DDevice,
+                                        24,
+                                        0,
+                                        FW_NORMAL,
+                                        1,
+                                        false,
+                                        DEFAULT_CHARSET,
+                                        OUT_TT_ONLY_PRECIS,
+                                        ANTIALIASED_QUALITY,
+                                        FF_DONTCARE,
+                                        "Consolas",
+                                        &m_pFont);
+        }
     }
 
     virtual void DrawText_(const std::string& msg, const int x, const int y)
@@ -338,7 +356,8 @@ void InitTalk()
     ISoundEffect* pSE = new SoundEffect();
     ISprite* sprite = new Sprite(g_pd3dDevice);
 
-    g_talk->Init("talk2Sample.csv", pFont, pSE, sprite, "textBack.png", "black.png", false);
+    //g_talk->Init("talk2Sample.csv", pFont, pSE, sprite, "textBack.png", "black.png", false, false);
+    g_talk->Init("talk2SampleEng.csv", pFont, pSE, sprite, "textBack.png", "black.png", false, true);
 }
 
 VOID Cleanup()

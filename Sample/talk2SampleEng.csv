@@ -1,0 +1,20 @@
+ID,オプション1,オプション2,オプション3,,
+1,"The curious cat wandered through the dark alley
+Its eyes glimmering under the moonlight
+As the distant sound of a clock ticking echoed through the silent streets. ",chara1.png,,,"・オプション1は表示したいテキスト
+・半角英数字は使用禁止
+・３行まで
+・オプション2は左に表示したい画像
+・オプション3は右に表示したい画像"
+2,"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+Bbbbbbbbbbbbbbbbbbbb",chara1.png,chara2.png,,
+3,C,chara1.png,,,
+4,1,,chara2.png,,
+5,"333333
+44444444",chara1.png,,,
+6,4.44444444444445E+016,,chara2.png,,
+7,"5
+5
+5",chara3.png,,,
+8,6,,chara3.png,,
+9,7.77777777777778E+025,chara1.png,,,

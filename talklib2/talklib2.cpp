@@ -27,7 +27,8 @@ void Talk::Init(const std::string& csvfilepath,
                 ISprite* sprite,
                 const std::string& textBackImgPath,
                 const std::string& blackImgPath,
-                const bool encrypt)
+                const bool encrypt,
+                const bool bEnglish)
 {
     m_csvfilepath = csvfilepath;
     m_font = font;
@@ -36,8 +37,9 @@ void Talk::Init(const std::string& csvfilepath,
     m_sprTextBack = sprite->Create();
     m_sprFade = sprite->Create();
     m_encrypt = encrypt;
+    m_bEnglish = bEnglish;
 
-    m_font->Init();
+    m_font->Init(m_bEnglish);
     m_SE->Init();
     m_sprTextBack->Load(textBackImgPath);
     m_sprFade->Load(blackImgPath);
