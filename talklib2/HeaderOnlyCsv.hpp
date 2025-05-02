@@ -22,6 +22,7 @@ public:
         }
 
         // 「"」記号で囲まれているとセル内改行ができることに注意
+        // 「"」記号で囲まれているとセル内で「,」が使用できることに注意
         std::ifstream ifs(filepath);
         std::string buffComma;
         bool doubleQuoteMode = false;
@@ -36,7 +37,7 @@ public:
                 buffComma += *itBegin;
                 if (*itBegin == '"')
                 {
-                    if (doubleQuoteMode == false)
+                    if (!doubleQuoteMode)
                     {
                         doubleQuoteMode = true;
                     }
@@ -48,12 +49,19 @@ public:
             }
             else if (*itBegin == ',')
             {
-                work.push_back(buffComma);
-                buffComma.clear();
+                if (!doubleQuoteMode)
+                {
+                    work.push_back(buffComma);
+                    buffComma.clear();
+                }
+                else
+                {
+                    buffComma += *itBegin;
+                }
             }
             else if (*itBegin == '\n')
             {
-                if (doubleQuoteMode == false)
+                if (!doubleQuoteMode)
                 {
                     work.push_back(buffComma);
                     buffComma.clear();
@@ -88,7 +96,7 @@ public:
                 buffComma += *itBegin;
                 if (*itBegin == '"')
                 {
-                    if (doubleQuoteMode == false)
+                    if (!doubleQuoteMode)
                     {
                         doubleQuoteMode = true;
                     }
@@ -100,12 +108,19 @@ public:
             }
             else if (*itBegin == ',')
             {
-                work.push_back(buffComma);
-                buffComma.clear();
+                if (!doubleQuoteMode)
+                {
+                    work.push_back(buffComma);
+                    buffComma.clear();
+                }
+                else
+                {
+                    buffComma += *itBegin;
+                }
             }
             else if (*itBegin == '\n')
             {
-                if (doubleQuoteMode == false)
+                if (!doubleQuoteMode)
                 {
                     work.push_back(buffComma);
                     buffComma.clear();
