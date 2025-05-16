@@ -1,4 +1,4 @@
-#include <string>
+ï»¿#include <string>
 #include <fstream>
 
 class CaesarCipher
@@ -15,8 +15,8 @@ public:
         {
             work[i] = work[i] + 10;
         }
-        // work[i]‚ğ+10‚µ‚½‚Æ‚«‚É0‚É‚È‚Á‚Ä‚µ‚Ü‚¤‚±‚Æ‚ª‚ ‚éB
-        // ‚»‚Ì‚½‚ßwork‚Ì’†‚É‚Í0x00‚ªŠÜ‚Ü‚ê‚é‚±‚Æ‚ğl—¶‚·‚é
+        // work[i]ã‚’+10ã—ãŸã¨ãã«0ã«ãªã£ã¦ã—ã¾ã†ã“ã¨ãŒã‚ã‚‹ã€‚
+        // ãã®ãŸã‚workã®ä¸­ã«ã¯0x00ãŒå«ã¾ã‚Œã‚‹ã“ã¨ã‚’è€ƒæ…®ã™ã‚‹
         result = std::string(&work[0], &work[len + 1]);
         delete[] work;
         return result;
@@ -36,9 +36,9 @@ public:
         std::string result;
         char* work = nullptr;
         std::size_t len = text.length();
-        work = new char[len]; // +1‚µ‚È‚¢BˆÃ†‰»‚Éƒkƒ‹•¶š‚ğ+10‚µ‚½‹L†‚ª––”ö‚É‚ ‚é‚©‚çB
+        work = new char[len]; // +1ã—ãªã„ã€‚æš—å·åŒ–æ™‚ã«ãƒŒãƒ«æ–‡å­—ã‚’+10ã—ãŸè¨˜å·ãŒæœ«å°¾ã«ã‚ã‚‹ã‹ã‚‰ã€‚
 
-        // “r’†‚Énull•¶š‚ª‚ ‚Á‚Ä‚àw’èƒoƒCƒg”‚Ü‚ÅƒRƒs[‚·‚é
+        // é€”ä¸­ã«nullæ–‡å­—ãŒã‚ã£ã¦ã‚‚æŒ‡å®šãƒã‚¤ãƒˆæ•°ã¾ã§ã‚³ãƒ”ãƒ¼ã™ã‚‹
         memcpy(work, text.c_str(), len);
         for (std::size_t i = 0; i < len; ++i)
         {

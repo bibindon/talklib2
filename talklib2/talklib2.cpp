@@ -1,4 +1,4 @@
-#include "talklib2.h"
+ï»¿#include "talklib2.h"
 #include <sstream>
 #include "HeaderOnlyCsv.hpp"
 #include "CaesarCipher.h"
@@ -114,7 +114,7 @@ void Talk::Next()
 
 }
 
-// –ß‚è’l‚Í‰ï˜bI—¹ƒtƒ‰ƒO
+// æˆ»ã‚Šå€¤ã¯ä¼šè©±çµ‚äº†ãƒ•ãƒ©ã‚°
 bool Talk::Update()
 {
     UpdateConstValue();
@@ -232,12 +232,12 @@ void TalkBall::Update(const bool fastmode)
 
     bool finish = false;
 
-    // •¶š‘—‚èˆ—
+    // æ–‡å­—é€ã‚Šå‡¦ç†
     m_textShow.at(0).clear();
     m_textShow.at(1).clear();
     m_textShow.at(2).clear();
 
-    // 30ƒtƒŒ[ƒ€Œo‰ß‚µ‚Ä‚©‚ç•¶š‚Ì•\¦‚ğn‚ß‚é
+    // 30ãƒ•ãƒ¬ãƒ¼ãƒ çµŒéã—ã¦ã‹ã‚‰æ–‡å­—ã®è¡¨ç¤ºã‚’å§‹ã‚ã‚‹
     m_counter++;
 
     if (!fastmode)
@@ -270,10 +270,10 @@ void TalkBall::Update(const bool fastmode)
         m_charCount += 300;
     }
 
-    // ˆês–Ú
+    // ä¸€è¡Œç›®
     if (m_charCount < (int)m_text.at(0).size())
     {
-        // ƒ}ƒ‹ƒ`ƒoƒCƒg•¶š‚Í1•¶š‚Å2ƒoƒCƒg‚Å‚ ‚é‚±‚Æ‚ğl—¶‚·‚é
+        // ãƒãƒ«ãƒãƒã‚¤ãƒˆæ–‡å­—ã¯1æ–‡å­—ã§2ãƒã‚¤ãƒˆã§ã‚ã‚‹ã“ã¨ã‚’è€ƒæ…®ã™ã‚‹
         if (m_charCount % 2 == 0)
         {
             m_textShow.at(0) = m_text.at(0).substr(0, (size_t)m_charCount);
@@ -290,14 +290,14 @@ void TalkBall::Update(const bool fastmode)
 
     int total = 0;
 
-    // “ñs–Ú
+    // äºŒè¡Œç›®
     total = (int)m_text.at(0).size() + (int)m_text.at(1).size();
     int secondLineCount = m_charCount - (int)m_text.at(0).size();
     if (m_charCount < total)
     {
         if (secondLineCount >= 0)
         {
-            // ƒ}ƒ‹ƒ`ƒoƒCƒg•¶š‚Í1•¶š‚Å2ƒoƒCƒg‚Å‚ ‚é‚±‚Æ‚ğl—¶‚·‚é
+            // ãƒãƒ«ãƒãƒã‚¤ãƒˆæ–‡å­—ã¯1æ–‡å­—ã§2ãƒã‚¤ãƒˆã§ã‚ã‚‹ã“ã¨ã‚’è€ƒæ…®ã™ã‚‹
             if (secondLineCount % 2 == 0)
             {
                 m_textShow.at(1) = m_text.at(1).substr(0, secondLineCount);
@@ -313,7 +313,7 @@ void TalkBall::Update(const bool fastmode)
         m_textShow.at(1) = m_text.at(1);
     }
 
-    // Os–Ú
+    // ä¸‰è¡Œç›®
     total = (int)m_text.at(0).size() + (int)m_text.at(1).size() + (int)m_text.at(2).size();
 
     int thirdLineCount = m_charCount - (int)m_text.at(0).size() - (int)m_text.at(1).size();
@@ -321,7 +321,7 @@ void TalkBall::Update(const bool fastmode)
     {
         if (thirdLineCount >= 0)
         {
-            // ƒ}ƒ‹ƒ`ƒoƒCƒg•¶š‚Í1•¶š‚Å2ƒoƒCƒg‚Å‚ ‚é‚±‚Æ‚ğl—¶‚·‚é
+            // ãƒãƒ«ãƒãƒã‚¤ãƒˆæ–‡å­—ã¯1æ–‡å­—ã§2ãƒã‚¤ãƒˆã§ã‚ã‚‹ã“ã¨ã‚’è€ƒæ…®ã™ã‚‹
             if (thirdLineCount % 2 == 0)
             {
                 m_textShow.at(2) = m_text.at(2).substr(0, thirdLineCount);

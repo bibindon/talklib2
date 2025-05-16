@@ -1,4 +1,4 @@
-#pragma comment( lib, "d3d9.lib" )
+ï»¿#pragma comment( lib, "d3d9.lib" )
 #if defined(DEBUG) || defined(_DEBUG)
 #pragma comment( lib, "d3dx9d.lib" )
 #else
@@ -123,7 +123,7 @@ public:
                                         OUT_TT_ONLY_PRECIS,
                                         ANTIALIASED_QUALITY,
                                         FF_DONTCARE,
-                                        "‚l‚r –¾’©",
+                                        "ï¼­ï¼³ æ˜Žæœ",
                                         &m_pFont);
         }
         else
@@ -257,7 +257,7 @@ HRESULT InitD3D(HWND hWnd)
                                 OUT_TT_ONLY_PRECIS,
                                 ANTIALIASED_QUALITY,
                                 FF_DONTCARE,
-                                "‚l‚r ƒSƒVƒbƒN",
+                                "ï¼­ï¼³ ã‚´ã‚·ãƒƒã‚¯",
                                 &g_pFont);
     if FAILED(hr)
     {
@@ -276,7 +276,7 @@ HRESULT InitD3D(HWND hWnd)
                                      &dwNumMaterials,
                                      &pMesh)))
         {
-            MessageBox(NULL, "Xƒtƒ@ƒCƒ‹‚Ì“Ç‚Ýž‚Ý‚ÉŽ¸”s‚µ‚Ü‚µ‚½", NULL, MB_OK);
+            MessageBox(NULL, "Xãƒ•ã‚¡ã‚¤ãƒ«ã®èª­ã¿è¾¼ã¿ã«å¤±æ•—ã—ã¾ã—ãŸ", NULL, MB_OK);
             return E_FAIL;
         }
         d3dxMaterials = (D3DXMATERIAL*)pD3DXMtrlBuffer->GetBufferPointer();
@@ -294,7 +294,7 @@ HRESULT InitD3D(HWND hWnd)
                                                      d3dxMaterials[i].pTextureFilename,
                                                      &pTextures[i])))
                 {
-                    MessageBox(NULL, "ƒeƒNƒXƒ`ƒƒ‚Ì“Ç‚Ýž‚Ý‚ÉŽ¸”s‚µ‚Ü‚µ‚½", NULL, MB_OK);
+                    MessageBox(NULL, "ãƒ†ã‚¯ã‚¹ãƒãƒ£ã®èª­ã¿è¾¼ã¿ã«å¤±æ•—ã—ã¾ã—ãŸ", NULL, MB_OK);
                 }
             }
         }
@@ -311,7 +311,7 @@ HRESULT InitD3D(HWND hWnd)
                                      &dwNumMaterials2,
                                      &pMesh2)))
         {
-            MessageBox(NULL, "Xƒtƒ@ƒCƒ‹‚Ì“Ç‚Ýž‚Ý‚ÉŽ¸”s‚µ‚Ü‚µ‚½", NULL, MB_OK);
+            MessageBox(NULL, "Xãƒ•ã‚¡ã‚¤ãƒ«ã®èª­ã¿è¾¼ã¿ã«å¤±æ•—ã—ã¾ã—ãŸ", NULL, MB_OK);
             return E_FAIL;
         }
         d3dxMaterials2 = (D3DXMATERIAL*)pD3DXMtrlBuffer->GetBufferPointer();
@@ -329,7 +329,7 @@ HRESULT InitD3D(HWND hWnd)
                                                      d3dxMaterials2[i].pTextureFilename,
                                                      &pTextures2[i])))
                 {
-                    MessageBox(NULL, "ƒeƒNƒXƒ`ƒƒ‚Ì“Ç‚Ýž‚Ý‚ÉŽ¸”s‚µ‚Ü‚µ‚½", NULL, MB_OK);
+                    MessageBox(NULL, "ãƒ†ã‚¯ã‚¹ãƒãƒ£ã®èª­ã¿è¾¼ã¿ã«å¤±æ•—ã—ã¾ã—ãŸ", NULL, MB_OK);
                 }
             }
         }
@@ -350,8 +350,8 @@ HRESULT InitD3D(HWND hWnd)
 
 void InitTalk()
 {
-    // new‚Íƒ‰ƒCƒuƒ‰ƒŠ‚ÌŽg—pŽÒ‚ª‚·‚é‚ªAdelete‚Íƒ‰ƒCƒuƒ‰ƒŠ“à‚Ås‚í‚ê‚éB
-    // ‚¿‚å‚Á‚Æ—Ç‚­‚È‚¢‚¯‚ÇEEE‚Ü‚Ÿ‚æ‚µI
+    // newã¯ãƒ©ã‚¤ãƒ–ãƒ©ãƒªã®ä½¿ç”¨è€…ãŒã™ã‚‹ãŒã€deleteã¯ãƒ©ã‚¤ãƒ–ãƒ©ãƒªå†…ã§è¡Œã‚ã‚Œã‚‹ã€‚
+    // ã¡ã‚‡ã£ã¨è‰¯ããªã„ã‘ã©ãƒ»ãƒ»ãƒ»ã¾ãã‚ˆã—ï¼
     IFont* pFont = new Font(g_pd3dDevice);
     ISoundEffect* pSE = new SoundEffect();
     ISprite* sprite = new Sprite(g_pd3dDevice);
@@ -442,7 +442,7 @@ VOID Render()
     if (SUCCEEDED(g_pd3dDevice->BeginScene()))
     {
         char msg[128];
-        strcpy_s(msg, 128, "‚lƒL[‚Å‰ï˜bŠJŽn");
+        strcpy_s(msg, 128, "ï¼­ã‚­ãƒ¼ã§ä¼šè©±é–‹å§‹");
         TextDraw(g_pFont, msg, 0, 0);
         UINT numPass;
         pEffect->SetTechnique("BasicTec");
