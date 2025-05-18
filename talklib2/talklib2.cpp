@@ -7,11 +7,11 @@ using namespace NSTalkLib2;
 
 bool Talk::m_fastMode = false;
 
-static std::vector<std::string> split(const std::string& s, char delim)
+static std::vector<std::wstring> split(const std::wstring& s, wchar_t delim)
 {
-    std::vector<std::string> result;
-    std::stringstream ss(s);
-    std::string item;
+    std::vector<std::wstring> result;
+    std::wstringstream ss(s);
+    std::wstring item;
 
     while (getline(ss, item, delim))
     {
@@ -21,12 +21,12 @@ static std::vector<std::string> split(const std::string& s, char delim)
     return result;
 }
 
-void Talk::Init(const std::string& csvfilepath,
+void Talk::Init(const std::wstring& csvfilepath,
                 IFont* font,
                 ISoundEffect* SE,
                 ISprite* sprite,
-                const std::string& textBackImgPath,
-                const std::string& blackImgPath,
+                const std::wstring& textBackImgPath,
+                const std::wstring& blackImgPath,
                 const bool encrypt,
                 const bool bEnglish)
 {
@@ -68,7 +68,7 @@ std::vector<TalkBall*> Talk::CreateTalkList()
 {
     std::vector<TalkBall*> talkList;
 
-    std::vector<std::vector<std::string> > vss;
+    std::vector<std::vector<std::wstring> > vss;
 
     if (m_encrypt == false)
     {
@@ -192,7 +192,7 @@ Talk::~Talk()
     m_font = nullptr;
 }
 
-void TalkBall::Init(const std::vector<std::string>& csvOneLine,
+void TalkBall::Init(const std::vector<std::wstring>& csvOneLine,
                     IFont* font,
                     ISprite* sprite,
                     ISoundEffect* SE)
@@ -203,11 +203,11 @@ void TalkBall::Init(const std::vector<std::string>& csvOneLine,
     m_spriteLeft = sprite->Create();
     m_spriteRight = sprite->Create();
 
-    std::vector<std::string> vs;
+    std::vector<std::wstring> vs;
 
-    std::string work = csvOneLine.at(1);
-    work.erase(remove(work.begin(), work.end(), '\"'), work.end());
-    vs = split(work, '\n');
+    std::wstring work = csvOneLine.at(1);
+    work.erase(remove(work.begin(), work.end(), L'\"'), work.end());
+    vs = split(work, L'\n');
     m_text = vs;
     m_text.resize(3);
 

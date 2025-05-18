@@ -1,11 +1,11 @@
-﻿#pragma comment( lib, "d3d9.lib" )
+﻿#pragma comment( lib, "d3d9.lib")
 #if defined(DEBUG) || defined(_DEBUG)
-#pragma comment( lib, "d3dx9d.lib" )
+#pragma comment( lib, "d3dx9d.lib")
 #else
-#pragma comment( lib, "d3dx9.lib" )
+#pragma comment( lib, "d3dx9.lib")
 #endif
 #pragma comment (lib, "winmm.lib")
-#pragma comment( lib, "talklib2.lib" )
+#pragma comment( lib, "talklib2.lib")
 
 #include "..\talklib2\talklib2.h"
 
@@ -13,6 +13,7 @@
 #include <d3dx9.h>
 #include <string>
 #include <vector>
+#include <tchar.h>
 
 #define _CRTDBG_MAP_ALLOC
 #include <stdlib.h>
@@ -51,7 +52,7 @@ public:
 
     }
 
-    void Load(const std::string& filepath) override
+    void Load(const std::wstring& filepath) override
     {
         if (FAILED(D3DXCreateSprite(m_pD3DDevice, &m_D3DSprite)))
         {
@@ -123,7 +124,7 @@ public:
                                         OUT_TT_ONLY_PRECIS,
                                         ANTIALIASED_QUALITY,
                                         FF_DONTCARE,
-                                        "ＭＳ 明朝",
+                                        _T("ＭＳ 明朝"),
                                         &m_pFont);
         }
         else
@@ -138,12 +139,12 @@ public:
                                         OUT_TT_ONLY_PRECIS,
                                         CLEARTYPE_QUALITY,
                                         FF_DONTCARE,
-                                        "Courier New",
+                                        _T("Courier New"),
                                         &m_pFont);
         }
     }
 
-    virtual void DrawText_(const std::string& msg, const int x, const int y)
+    virtual void DrawText_(const std::wstring& msg, const int x, const int y)
     {
         RECT rect = { x, y, 0, 0 };
         m_pFont->DrawText(NULL, msg.c_str(), -1, &rect, DT_LEFT | DT_NOCLIP,
@@ -170,7 +171,7 @@ class SoundEffect : public ISoundEffect
 
     void PlayMessage() override
     {
-        PlaySound("message1.wav", NULL, SND_FILENAME | SND_ASYNC | SND_LOOP);
+        PlaySound(_T("message1.wav"), NULL, SND_FILENAME | SND_ASYNC | SND_LOOP);
     }
 
     void Stop() override
@@ -201,7 +202,7 @@ bool bFinish = false;
 
 Talk* g_talk = nullptr;
 
-void TextDraw(LPD3DXFONT pFont, char* text, int X, int Y)
+void TextDraw(LPD3DXFONT pFont, wchar_t* text, int X, int Y)
 {
     RECT rect = { X,Y,0,0 };
     pFont->DrawText(NULL, text, -1, &rect, DT_LEFT | DT_NOCLIP, D3DCOLOR_ARGB(255, 0, 0, 0));
@@ -257,7 +258,7 @@ HRESULT InitD3D(HWND hWnd)
                                 OUT_TT_ONLY_PRECIS,
                                 ANTIALIASED_QUALITY,
                                 FF_DONTCARE,
-                                "ＭＳ ゴシック",
+                                _T("ＭＳ ゴシック"),
                                 &g_pFont);
     if FAILED(hr)
     {
@@ -267,7 +268,7 @@ HRESULT InitD3D(HWND hWnd)
 
     {
         LPD3DXBUFFER pD3DXMtrlBuffer = NULL;
-        if (FAILED(D3DXLoadMeshFromX("cube.x",
+        if (FAILED(D3DXLoadMeshFromX(_T("cube.x"),
                                      D3DXMESH_SYSTEMMEM,
                                      g_pd3dDevice,
                                      NULL,
@@ -276,7 +277,7 @@ HRESULT InitD3D(HWND hWnd)
                                      &dwNumMaterials,
                                      &pMesh)))
         {
-            MessageBox(NULL, "Xファイルの読み込みに失敗しました", NULL, MB_OK);
+            MessageBox(NULL, _T("Xファイルの読み込みに失敗しました"), NULL, MB_OK);
             return E_FAIL;
         }
         d3dxMaterials = (D3DXMATERIAL*)pD3DXMtrlBuffer->GetBufferPointer();
@@ -288,13 +289,18 @@ HRESULT InitD3D(HWND hWnd)
             pMaterials[i] = d3dxMaterials[i].MatD3D;
             pMaterials[i].Ambient = pMaterials[i].Diffuse;
             pTextures[i] = NULL;
-            if (d3dxMaterials[i].pTextureFilename != NULL && lstrlen(d3dxMaterials[i].pTextureFilename) > 0)
+
+            int len = MultiByteToWideChar(CP_UTF8, 0, d3dxMaterials[i].pTextureFilename, -1, nullptr, 0);
+            std::wstring result(len - 1, 0);
+            MultiByteToWideChar(CP_UTF8, 0, d3dxMaterials[i].pTextureFilename, -1, &result[0], len);
+
+            if (!result.empty())
             {
                 if (FAILED(D3DXCreateTextureFromFile(g_pd3dDevice,
-                                                     d3dxMaterials[i].pTextureFilename,
+                                                     result.c_str(),
                                                      &pTextures[i])))
                 {
-                    MessageBox(NULL, "テクスチャの読み込みに失敗しました", NULL, MB_OK);
+                    MessageBox(NULL, _T("テクスチャの読み込みに失敗しました"), NULL, MB_OK);
                 }
             }
         }
@@ -302,7 +308,7 @@ HRESULT InitD3D(HWND hWnd)
     }
     {
         LPD3DXBUFFER pD3DXMtrlBuffer = NULL;
-        if (FAILED(D3DXLoadMeshFromX("tiger.x",
+        if (FAILED(D3DXLoadMeshFromX(_T("tiger.x"),
                                      D3DXMESH_SYSTEMMEM,
                                      g_pd3dDevice,
                                      NULL,
@@ -311,7 +317,7 @@ HRESULT InitD3D(HWND hWnd)
                                      &dwNumMaterials2,
                                      &pMesh2)))
         {
-            MessageBox(NULL, "Xファイルの読み込みに失敗しました", NULL, MB_OK);
+            MessageBox(NULL, _T("Xファイルの読み込みに失敗しました"), NULL, MB_OK);
             return E_FAIL;
         }
         d3dxMaterials2 = (D3DXMATERIAL*)pD3DXMtrlBuffer->GetBufferPointer();
@@ -323,13 +329,18 @@ HRESULT InitD3D(HWND hWnd)
             pMaterials2[i] = d3dxMaterials2[i].MatD3D;
             pMaterials2[i].Ambient = pMaterials2[i].Diffuse;
             pTextures2[i] = NULL;
-            if (d3dxMaterials2[i].pTextureFilename != NULL && lstrlen(d3dxMaterials2[i].pTextureFilename) > 0)
+
+            int len = MultiByteToWideChar(CP_UTF8, 0, d3dxMaterials[i].pTextureFilename, -1, nullptr, 0);
+            std::wstring result(len - 1, 0);
+            MultiByteToWideChar(CP_UTF8, 0, d3dxMaterials[i].pTextureFilename, -1, &result[0], len);
+
+            if (!result.empty())
             {
                 if (FAILED(D3DXCreateTextureFromFile(g_pd3dDevice,
-                                                     d3dxMaterials2[i].pTextureFilename,
+                                                     result.c_str(),
                                                      &pTextures2[i])))
                 {
-                    MessageBox(NULL, "テクスチャの読み込みに失敗しました", NULL, MB_OK);
+                    MessageBox(NULL, _T("テクスチャの読み込みに失敗しました"), NULL, MB_OK);
                 }
             }
         }
@@ -337,7 +348,7 @@ HRESULT InitD3D(HWND hWnd)
     }
 
     D3DXCreateEffectFromFile(g_pd3dDevice,
-                             "simple.fx",
+                             _T("simple.fx"),
                              NULL,
                              NULL,
                              D3DXSHADER_DEBUG,
@@ -356,8 +367,8 @@ void InitTalk()
     ISoundEffect* pSE = new SoundEffect();
     ISprite* sprite = new Sprite(g_pd3dDevice);
 
-    //g_talk->Init("talk2Sample.csv", pFont, pSE, sprite, "textBack.png", "black.png", false, false);
-    g_talk->Init("talk2SampleEng.csv", pFont, pSE, sprite, "textBack.png", "black.png", false, true);
+    //g_talk->Init(_T("talk2Sample.csv"), pFont, pSE, sprite, _T("textBack.png"), _T("black.png"), false, false);
+    g_talk->Init(_T("talk2SampleEng.csv"), pFont, pSE, sprite, _T("textBack.png"), _T("black.png"), false, true);
 }
 
 VOID Cleanup()
@@ -441,8 +452,8 @@ VOID Render()
 
     if (SUCCEEDED(g_pd3dDevice->BeginScene()))
     {
-        char msg[128];
-        strcpy_s(msg, 128, "Ｍキーで会話開始");
+        wchar_t msg[128];
+        wcscpy_s(msg, 128, _T("Ｍキーで会話開始"));
         TextDraw(g_pFont, msg, 0, 0);
         UINT numPass;
         pEffect->SetTechnique("BasicTec");
@@ -556,7 +567,7 @@ INT WINAPI wWinMain(_In_ HINSTANCE hInst, _In_opt_ HINSTANCE, _In_ LPWSTR, _In_ 
                       NULL,
                       NULL,
                       NULL,
-                      "Window1",
+                      _T("Window1"),
                       NULL };
     RegisterClassEx(&wc);
 
@@ -568,8 +579,8 @@ INT WINAPI wWinMain(_In_ HINSTANCE hInst, _In_opt_ HINSTANCE, _In_ LPWSTR, _In_ 
     rect.top = 0;
     rect.left = 0;
 
-    HWND hWnd = CreateWindow("Window1",
-                             "Hello DirectX9 World !!",
+    HWND hWnd = CreateWindow(_T("Window1"),
+                             _T("Hello DirectX9 World !!"),
                              WS_OVERLAPPEDWINDOW,
                              10,
                              10,
@@ -593,7 +604,7 @@ INT WINAPI wWinMain(_In_ HINSTANCE hInst, _In_opt_ HINSTANCE, _In_ LPWSTR, _In_ 
         }
     }
 
-    UnregisterClass("Window1", wc.hInstance);
+    UnregisterClass(_T("Window1"), wc.hInstance);
     Cleanup();
     _CrtDumpMemoryLeaks();
     return 0;

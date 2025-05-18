@@ -11,7 +11,7 @@ class ISprite
 {
 public:
     virtual void DrawImage(const int x, const int y, const int transparency = 255) = 0;
-    virtual void Load(const std::string& filepath) = 0;
+    virtual void Load(const std::wstring& filepath) = 0;
     virtual ~ISprite() {};
     virtual ISprite* Create() = 0; // 仮想コンストラクタ
 };
@@ -19,7 +19,7 @@ public:
 class IFont
 {
 public:
-    virtual void DrawText_(const std::string& msg, const int x, const int y) = 0;
+    virtual void DrawText_(const std::wstring& msg, const int x, const int y) = 0;
     virtual void Init(const bool bEnglish) = 0;
     virtual ~IFont() {};
 };
@@ -37,7 +37,7 @@ class TalkBall
 {
 public:
     ~TalkBall();
-    void Init(const std::vector<std::string>& csvOneLine,
+    void Init(const std::vector<std::wstring>& csvOneLine,
               IFont* font,
               ISprite* sprite,
               ISoundEffect* SE);
@@ -46,8 +46,8 @@ public:
     bool IsFinish();
 
 private:
-    std::vector<std::string> m_textShow;
-    std::vector<std::string> m_text;
+    std::vector<std::wstring> m_textShow;
+    std::vector<std::wstring> m_text;
     int m_textIndex = 0;
     int m_counter = 0;
     int m_charCount = 0;
@@ -67,12 +67,12 @@ public:
 
     ~Talk();
 
-    void Init(const std::string& csvFilename,
+    void Init(const std::wstring& csvFilename,
               IFont* font,
               ISoundEffect* SE,
               ISprite* sprite,
-              const std::string& textBackImgPath,
-              const std::string& blackImgPath,
+              const std::wstring& textBackImgPath,
+              const std::wstring& blackImgPath,
               const bool encrypt,
               const bool bEnglish);
 
@@ -89,7 +89,7 @@ private:
 
     std::vector<TalkBall*> CreateTalkList();
 
-    std::string m_csvfilepath;
+    std::wstring m_csvfilepath;
     ISprite* m_sprite = nullptr;
     ISprite* m_sprTextBack = nullptr;
     IFont* m_font = nullptr;
