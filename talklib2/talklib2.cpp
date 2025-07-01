@@ -202,6 +202,7 @@ void TalkBall::Init(const std::vector<std::wstring>& csvOneLine,
     m_SE = SE;
     m_spriteLeft = sprite->Create();
     m_spriteRight = sprite->Create();
+    //m_spriteBack = sprite->Create();
 
     std::vector<std::wstring> vs;
 
@@ -221,6 +222,12 @@ void TalkBall::Init(const std::vector<std::wstring>& csvOneLine,
     if (work.empty() == false)
     {
         m_spriteRight->Load(work);
+    }
+
+    work = csvOneLine.at(4);
+    if (work.empty() == false)
+    {
+        //m_spriteBack->Load(work);
     }
 
     m_textShow.resize(3);

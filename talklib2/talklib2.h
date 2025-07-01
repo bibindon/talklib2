@@ -55,6 +55,7 @@ private:
     ISprite* m_spriteBack = nullptr;
     ISprite* m_spriteLeft = nullptr;
     ISprite* m_spriteRight = nullptr;
+    //ISprite* m_spriteBack = nullptr;
     ISoundEffect* m_SE = nullptr;
 
     bool m_isSEPlay = false;

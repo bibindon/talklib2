@@ -265,7 +265,6 @@ HRESULT InitD3D(HWND hWnd)
         return(E_FAIL);
     }
 
-
     {
         LPD3DXBUFFER pD3DXMtrlBuffer = NULL;
         if (FAILED(D3DXLoadMeshFromX(_T("cube.x"),
@@ -330,12 +329,13 @@ HRESULT InitD3D(HWND hWnd)
             pMaterials2[i].Ambient = pMaterials2[i].Diffuse;
             pTextures2[i] = NULL;
 
-            int len = MultiByteToWideChar(CP_UTF8, 0, d3dxMaterials[i].pTextureFilename, -1, nullptr, 0);
-            std::wstring result(len - 1, 0);
-            MultiByteToWideChar(CP_UTF8, 0, d3dxMaterials[i].pTextureFilename, -1, &result[0], len);
-
-            if (!result.empty())
+            if (d3dxMaterials2[i].pTextureFilename != nullptr &&
+                strlen(d3dxMaterials2[i].pTextureFilename) != 0)
             {
+                int len = MultiByteToWideChar(CP_UTF8, 0, d3dxMaterials2[i].pTextureFilename, -1, nullptr, 0);
+                std::wstring result(len - 1, 0);
+                MultiByteToWideChar(CP_UTF8, 0, d3dxMaterials2[i].pTextureFilename, -1, &result[0], len);
+
                 if (FAILED(D3DXCreateTextureFromFile(g_pd3dDevice,
                                                      result.c_str(),
                                                      &pTextures2[i])))
