@@ -52,10 +52,16 @@ private:
     int m_counter = 0;
     int m_charCount = 0;
     IFont* m_font = nullptr;
-    ISprite* m_spriteBack = nullptr;
+
+    // フェードインアウト用の黒画像
+    ISprite* m_spriteFade = nullptr;
+
     ISprite* m_spriteLeft = nullptr;
     ISprite* m_spriteRight = nullptr;
-    //ISprite* m_spriteBack = nullptr;
+
+    // 背景画像
+    ISprite* m_spriteBack = nullptr;
+
     ISoundEffect* m_SE = nullptr;
 
     bool m_isSEPlay = false;

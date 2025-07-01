@@ -198,11 +198,11 @@ void TalkBall::Init(const std::vector<std::wstring>& csvOneLine,
                     ISoundEffect* SE)
 {
     m_font = font;
-    m_spriteBack = sprite;
+    m_spriteFade = sprite;
     m_SE = SE;
     m_spriteLeft = sprite->Create();
     m_spriteRight = sprite->Create();
-    //m_spriteBack = sprite->Create();
+    m_spriteBack = sprite->Create();
 
     std::vector<std::wstring> vs;
 
@@ -227,7 +227,7 @@ void TalkBall::Init(const std::vector<std::wstring>& csvOneLine,
     work = csvOneLine.at(4);
     if (work.empty() == false)
     {
-        //m_spriteBack->Load(work);
+        m_spriteBack->Load(work);
     }
 
     m_textShow.resize(3);
@@ -350,6 +350,11 @@ void TalkBall::Update(const bool fastmode)
 
 void TalkBall::Render()
 {
+    if (m_spriteBack != nullptr)
+    {
+        m_spriteBack->DrawImage(0, 0);
+    }
+
     if (m_spriteLeft != nullptr)
     {
         m_spriteLeft->DrawImage(0, 0);
@@ -360,7 +365,7 @@ void TalkBall::Render()
         m_spriteRight->DrawImage(700, 0);
     }
 
-    m_spriteBack->DrawImage(0, 0);
+    m_spriteFade->DrawImage(0, 0);
 
     if (m_textShow.size() >= 1)
     {
@@ -385,6 +390,9 @@ bool TalkBall::IsFinish()
 
 TalkBall::~TalkBall()
 {
+    delete m_spriteBack;
+    m_spriteBack = nullptr;
+
     delete m_spriteLeft;
     m_spriteLeft = nullptr;
 
