@@ -105,7 +105,7 @@ private:
     std::vector<TalkBall*> m_talkBallList;
     int m_talkBallIndex = 0;
 
-    ISprite* m_sprFade;
+    ISprite* m_sprFade = nullptr;
 
     // 30フレームかけて表示する。
     // 30フレームではなく500ミリ秒、でやるべきだが、それほど大きな問題とならないのでよしとする。
