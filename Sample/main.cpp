@@ -471,8 +471,6 @@ VOID Cleanup()
         g_talk = nullptr;
     }
 
-    SAFE_RELEASE(pEffect);
-
     for (DWORD i = 0; i < dwNumMaterials2; ++i)
     {
         SAFE_RELEASE(pTextures2[i]);
@@ -486,7 +484,6 @@ VOID Cleanup()
 
     for (DWORD i = 0; i < dwNumMaterials; ++i)
     {
-        pTextures[i]->Release();
         SAFE_RELEASE(pTextures[i]);
     }
     delete[] pTextures;
@@ -495,6 +492,9 @@ VOID Cleanup()
     pMaterials = nullptr;
 
     SAFE_RELEASE(pMesh);
+
+    SAFE_RELEASE(pEffect);
+
     SAFE_RELEASE(g_pFont);
     SAFE_RELEASE(g_pd3dDevice);
     SAFE_RELEASE(g_pD3D);
@@ -589,7 +589,6 @@ LRESULT WINAPI MsgProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
     switch (msg)
     {
     case WM_DESTROY:
-        Cleanup();
         PostQuitMessage(0);
         return 0;
     case WM_PAINT:
