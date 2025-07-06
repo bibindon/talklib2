@@ -243,12 +243,16 @@ void TalkBall::Init(const std::vector<std::wstring>& csvOneLine,
         m_spriteBack->Load(work);
     }
 
-    work = csvOneLine.at(5);
-    if (!work.empty() && m_BGM != nullptr)
+    if (csvOneLine.size() >= 6)
     {
-        m_BGM->Init(work);
-        m_BGM->Play();
+        work = csvOneLine.at(5);
+        if (!work.empty() && m_BGM != nullptr)
+        {
+            m_BGM->Init(work);
+            m_BGM->Play();
+        }
     }
+
 
     m_textShow.resize(3);
 }
