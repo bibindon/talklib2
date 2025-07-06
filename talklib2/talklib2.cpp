@@ -191,9 +191,12 @@ Talk::~Talk()
     delete m_SE;
     m_SE = nullptr;
 
-    m_BGM->Finalize();
-    delete m_BGM;
-    m_BGM = nullptr;
+    if (m_BGM != nullptr)
+    {
+        m_BGM->Finalize();
+        delete m_BGM;
+        m_BGM = nullptr;
+    }
 
     delete m_font;
     m_font = nullptr;
@@ -241,7 +244,7 @@ void TalkBall::Init(const std::vector<std::wstring>& csvOneLine,
     }
 
     work = csvOneLine.at(5);
-    if (!work.empty())
+    if (!work.empty() && m_BGM != nullptr)
     {
         m_BGM->Init(work);
         m_BGM->Play();

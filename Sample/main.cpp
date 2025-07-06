@@ -450,6 +450,16 @@ void InitTalk()
     IBGM* pBGM = new BGM();
     ISprite* sprite = new Sprite(g_pd3dDevice);
 
+//    g_talk->Init(_T("talk2Sample.csv"),
+//                 pFont,
+//                 pSE,
+//                 sprite,
+//                 _T("textBack.png"),
+//                 _T("black.png"),
+//                 false,
+//                 false,
+//                 pBGM);
+
     g_talk->Init(_T("talk2Sample.csv"),
                  pFont,
                  pSE,
@@ -457,8 +467,7 @@ void InitTalk()
                  _T("textBack.png"),
                  _T("black.png"),
                  false,
-                 false,
-                 pBGM);
+                 false);
 
     //g_talk->Init(_T("talk2SampleEng.csv"), pFont, pSE, sprite, _T("textBack.png"), _T("black.png"), false, true);
 }
