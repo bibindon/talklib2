@@ -19,6 +19,8 @@
 #include <stdlib.h>
 #include <crtdbg.h>
 
+#include <cassert>
+
 #define SAFE_RELEASE(p) { if (p) { (p)->Release(); (p) = NULL; } }
 
 using namespace NSTalkLib2;
@@ -165,19 +167,99 @@ private:
 
 class SoundEffect : public ISoundEffect
 {
+public:
+
     void Init() override
     {
     }
 
     void PlayMessage() override
     {
-        PlaySound(_T("message1.wav"), NULL, SND_FILENAME | SND_ASYNC | SND_LOOP);
+        //PlaySound(_T("message1.wav"), NULL, SND_FILENAME | SND_ASYNC | SND_LOOP);
+        wchar_t cmd[512];
+
+        // デバイスを開く（ファイルとエイリアスを関連付ける）
+        swprintf_s(cmd,
+                   L"open \"%s\" type waveaudio alias %s",
+                   filename.c_str(),
+                   filename.c_str());
+
+        mciSendString(cmd, nullptr, 0, nullptr);
+
+        // 非同期で再生
+        swprintf_s(cmd,
+                   L"play %s",
+                   filename.c_str());
+
+        mciSendString(cmd, nullptr, 0, nullptr);
     }
 
     void Stop() override
     {
-        PlaySound(NULL, NULL, 0);
+        //PlaySound(NULL, NULL, 0);
+        wchar_t cmd[64];
+        swprintf_s(cmd,
+                   L"close %s",
+                   filename.c_str());         // 停止＋リソース解放
+
+        mciSendString(cmd, nullptr, 0, nullptr);
     }
+
+private:
+
+    std::wstring filename = L"message1.wav";
+
+};
+
+class BGM : public IBGM
+{
+public:
+
+    void Init(const std::wstring& filepath) override
+    {
+        m_bgmFilePath = filepath;
+    }
+
+    void Finalize() override
+    {
+        //PlaySound(NULL, NULL, 0);
+
+        wchar_t cmd[64];
+        swprintf_s(cmd,
+                   L"close %s",
+                   m_bgmFilePath.c_str());         // 停止＋リソース解放
+
+        mciSendString(cmd, nullptr, 0, nullptr);
+
+    }
+
+    void Play() override
+    {
+//        BOOL result = PlaySound(m_bgmFilePath.c_str(), NULL, SND_FILENAME | SND_ASYNC | SND_LOOP);
+//        assert(result == TRUE);
+
+        wchar_t cmd[512];
+
+        // デバイスを開く（ファイルとエイリアスを関連付ける）
+        swprintf_s(cmd,
+                   L"open \"%s\" type waveaudio alias %s",
+                   m_bgmFilePath.c_str(),
+                   m_bgmFilePath.c_str());
+
+        mciSendString(cmd, nullptr, 0, nullptr);
+
+        // 非同期で再生
+        swprintf_s(cmd,
+                   L"play %s",
+                   m_bgmFilePath.c_str());
+
+        mciSendString(cmd, nullptr, 0, nullptr);
+    }
+
+private:
+
+    std::wstring m_bgmFilePath;
+
 };
 
 LPDIRECT3D9 g_pD3D = NULL;
@@ -365,9 +447,19 @@ void InitTalk()
     // ちょっと良くないけど・・・まぁよし！
     IFont* pFont = new Font(g_pd3dDevice);
     ISoundEffect* pSE = new SoundEffect();
+    IBGM* pBGM = new BGM();
     ISprite* sprite = new Sprite(g_pd3dDevice);
 
-    g_talk->Init(_T("talk2Sample.csv"), pFont, pSE, sprite, _T("textBack.png"), _T("black.png"), false, false);
+    g_talk->Init(_T("talk2Sample.csv"),
+                 pFont,
+                 pSE,
+                 sprite,
+                 _T("textBack.png"),
+                 _T("black.png"),
+                 false,
+                 false,
+                 pBGM);
+
     //g_talk->Init(_T("talk2SampleEng.csv"), pFont, pSE, sprite, _T("textBack.png"), _T("black.png"), false, true);
 }
 

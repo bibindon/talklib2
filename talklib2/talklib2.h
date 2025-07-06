@@ -33,14 +33,26 @@ public:
     virtual ~ISoundEffect() {};
 };
 
+class IBGM
+{
+public:
+    virtual void Init(const std::wstring& filepath) = 0;
+    virtual void Finalize() = 0;
+    virtual void Play() = 0;
+    virtual ~IBGM() {};
+};
+
 class TalkBall
 {
 public:
     ~TalkBall();
+
     void Init(const std::vector<std::wstring>& csvOneLine,
               IFont* font,
               ISprite* sprite,
-              ISoundEffect* SE);
+              ISoundEffect* SE,
+              IBGM* bgm);
+
     void Update(const bool fastmode);
     void Render();
     bool IsFinish();
@@ -63,6 +75,7 @@ private:
     ISprite* m_spriteBack = nullptr;
 
     ISoundEffect* m_SE = nullptr;
+    IBGM* m_BGM = nullptr;
 
     bool m_isSEPlay = false;
     bool m_isFinish = false;
@@ -81,7 +94,8 @@ public:
               const std::wstring& textBackImgPath,
               const std::wstring& blackImgPath,
               const bool encrypt,
-              const bool bEnglish);
+              const bool bEnglish,
+              IBGM* bgm = nullptr);
 
     void Next();
     bool Update();
@@ -101,6 +115,8 @@ private:
     ISprite* m_sprTextBack = nullptr;
     IFont* m_font = nullptr;
     ISoundEffect* m_SE = nullptr;
+    IBGM* m_BGM = nullptr;
+
     bool m_encrypt = false;
     std::vector<TalkBall*> m_talkBallList;
     int m_talkBallIndex = 0;

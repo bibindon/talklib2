@@ -28,11 +28,14 @@ void Talk::Init(const std::wstring& csvfilepath,
                 const std::wstring& textBackImgPath,
                 const std::wstring& blackImgPath,
                 const bool encrypt,
-                const bool bEnglish)
+                const bool bEnglish,
+                IBGM* bgm
+                )
 {
     m_csvfilepath = csvfilepath;
     m_font = font;
     m_SE = SE;
+    m_BGM = bgm;
     m_sprite = sprite;
     m_sprTextBack = sprite->Create();
     m_sprFade = sprite->Create();
@@ -83,7 +86,7 @@ std::vector<TalkBall*> Talk::CreateTalkList()
     for (std::size_t i = 1; i < vss.size(); ++i)
     {
         TalkBall* talkBall = new TalkBall();
-        talkBall->Init(vss.at(i), m_font, m_sprTextBack, m_SE);
+        talkBall->Init(vss.at(i), m_font, m_sprTextBack, m_SE, m_BGM);
         talkList.push_back(talkBall);
     }
     return talkList;
@@ -188,6 +191,10 @@ Talk::~Talk()
     delete m_SE;
     m_SE = nullptr;
 
+    m_BGM->Finalize();
+    delete m_BGM;
+    m_BGM = nullptr;
+
     delete m_font;
     m_font = nullptr;
 }
@@ -195,11 +202,14 @@ Talk::~Talk()
 void TalkBall::Init(const std::vector<std::wstring>& csvOneLine,
                     IFont* font,
                     ISprite* sprite,
-                    ISoundEffect* SE)
+                    ISoundEffect* SE,
+                    IBGM* bgm)
 {
     m_font = font;
     m_spriteFade = sprite;
     m_SE = SE;
+    m_BGM = bgm;
+
     m_spriteLeft = sprite->Create();
     m_spriteRight = sprite->Create();
     m_spriteBack = sprite->Create();
@@ -213,21 +223,28 @@ void TalkBall::Init(const std::vector<std::wstring>& csvOneLine,
     m_text.resize(3);
 
     work = csvOneLine.at(2);
-    if (work.empty() == false)
+    if (!work.empty())
     {
         m_spriteLeft->Load(work);
     }
 
     work = csvOneLine.at(3);
-    if (work.empty() == false)
+    if (!work.empty())
     {
         m_spriteRight->Load(work);
     }
 
     work = csvOneLine.at(4);
-    if (work.empty() == false)
+    if (!work.empty())
     {
         m_spriteBack->Load(work);
+    }
+
+    work = csvOneLine.at(5);
+    if (!work.empty())
+    {
+        m_BGM->Init(work);
+        m_BGM->Play();
     }
 
     m_textShow.resize(3);
